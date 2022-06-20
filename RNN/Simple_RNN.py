@@ -19,4 +19,6 @@ for input_t in inputs:
 
     successive_outputs.append(output_t)
 
+    state_t = output_t
+
 final_output_sequence = np.concatenate(successive_outputs, axis=0)
