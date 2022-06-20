@@ -49,7 +49,9 @@ class Simple_RNN():
 
             state_t = output_t
 
-        final_output_sequence = np.concatenate(self.successive_outputs, axis=0)
+        final_output_sequence = np.stack(self.successive_outputs, axis=0)
+        print(f'shape of successive outputs{self.successive_outputs[-1].shape}')
+        print(f'shape of output (timesteps, output_features){final_output_sequence.shape}')
         return final_output_sequence
 
 def main():
