@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#%%
+
 """Tests for RNN with keras."""
 
 from RNN.RnnKeras import RnnKeras
@@ -19,9 +19,9 @@ def main():
     input_test = tf.keras.preprocessing.sequence.pad_sequences(input_test, maxlen=500)
     print(f'input_train shape:{input_train.shape}')
     print(f'input_test shape:{input_test.shape}')
-    rnn_functional = RnnKeras(mode="Functional")
-    rnn_functional.initialize_values(max_features=10000, maxlen=500, batch_size=128, epochs=10)
-    rnn_functional.run(input_train, y_train)
+    rnn = RnnKeras(mode="Sequential")
+    rnn.initialize_values(max_features=10000, maxlen=500, batch_size=128, epochs=10)
+    rnn.run(input_train, y_train)
 
     #print(f'>>> La salida de la red rnn es: {output}')
     

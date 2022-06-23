@@ -19,15 +19,15 @@ class RnnKeras():
         print("----------------- Compile and fit -------------------")
         history = self.compile_and_fit(model, input_train, y_train)
         print("------------------------ values from fit ---------------------")
-        acc, val_acc, loss, val_loss = self.get_values_from_fit(history)
+        acc, val_acc, loss, val_loss, epochs = self.get_values_from_fit(history)
         print("---------------- Show -----------------------")
-        self.show(acc, val_acc, loss, val_loss)
+        self.show(acc, val_acc, loss, val_loss, epochs)
         
     def initialize_values(self, max_features, maxlen, batch_size, epochs):
-        self.set_max_features = max_features
-        self.set_maxlen = maxlen
-        self.set_batch_size = batch_size
-        self.set_epochs = epochs
+        self.set_max_features(max_features)
+        self.set_maxlen(maxlen)
+        self.set_batch_size(batch_size)
+        self.set_epochs(epochs)
         
     def selection_api(self,mode):
         if mode == "Functional":
@@ -36,7 +36,7 @@ class RnnKeras():
             
         elif mode == "Sequential":
             print("Secuencial")
-            return self.selection_api()
+            return self.sequential_api()
             
         else:
             print("Revisa el nombre")
@@ -49,12 +49,8 @@ class RnnKeras():
         print(f'********************************************************')
         
         input_tensor = tf.keras.Input(shape=(shape_data,))
-        print("1")
-        print(self.max_features)
         x = tf.keras.layers.Embedding(self.max_features, 32)(input_tensor)
-        print("2")
         x = tf.keras.layers.SimpleRNN(32)(x)
-        print(f'SimpleRNN loaded')
         output_tensor = tf.keras.layers.Dense(1, activation='sigmoid')(x)
         
         model_functional = tf.keras.Model(input_tensor, output_tensor)
@@ -99,19 +95,20 @@ class RnnKeras():
     def set_epochs(self, value):
         self.epochs = value
         
-    def show(self, acc, val_acc, loss, val_loss):
+    def show(self, acc, val_acc, loss, val_loss, epochs):
     
-        plt.plot(self.epochs, acc, 'bo', label='Training acc')
-        plt.plot(self.epochs, val_acc, 'b', label='Validation acc')
+        plt.plot(epochs, acc, 'bo', label='Training acc')
+        plt.plot(epochs, val_acc, 'b', label='Validation acc')
         plt.title(str(self.mode)+': Training and validation accuracy')
         plt.legend()
+        plt.savefig(str(self.mode)+'_accuracy.png')
 
         plt.figure()
 
-        plt.plot(self.epochs, loss, 'bo', label='Training loss')
-        plt.plot(self.epochs, val_loss, 'b', label='Validation loss')
+        plt.plot(epochs, loss, 'bo', label='Training loss')
+        plt.plot(epochs, val_loss, 'b', label='Validation loss')
         plt.title(str(self.mode)+':Training and validation loss')
         plt.legend()
-
+        plt.savefig(str(self.mode)+'_loss.png')
         plt.show()
 
