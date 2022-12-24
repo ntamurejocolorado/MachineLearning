@@ -16,7 +16,7 @@ install_reqs = list(parse_requirements(requirements_path, session=False))
 requirements = [str(ir.requirement) for ir in install_reqs]
 
 EXCLUDE_FILES = []
-sources = ["RNN","tests"]
+sources = ["time_series","RNN","tests"]
 package_data = {}
 
 #def get_ext_paths(root_dir, exclude_files):
